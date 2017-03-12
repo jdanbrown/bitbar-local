@@ -18,7 +18,7 @@ timeouts=''
 
 log_file='/tmp/bitbar-ping.log'
 
-printf '%-8s' "[`date +%M:%S`]" >>"$log_file"
+printf '%-11s' "[`date +%H:%M:%S`]" >>"$log_file"
 for icon_host in "${icon_hosts[@]}"; do
   read icon host <<< "$icon_host"
   ping_ms="$(ping -c1 -t"$timeout_s" -n -q "$host" 2>/dev/null | awk -F/ 'END {printf "%.1f\n", $5}')"
@@ -47,7 +47,7 @@ echo "$msg"
 echo ---
 echo 'Bounce wifi | terminal=false bash=/bin/bash param1=-c param2="networksetup -setairportpower en0 off && networksetup -setairportpower en0 on"'
 echo ---
-printf '%-8s' ''
+printf '%-11s' ''
 for icon_host in "${icon_hosts[@]}"; do
   read icon host <<< "$icon_host"
   printf '%18s' "[$host]"
