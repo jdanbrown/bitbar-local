@@ -8,7 +8,7 @@ PATH="/usr/local/bin:$PATH"
 icon_hosts=(
   '🔒 192.168.255.1'
   '🌍 8.8.4.4'
-  '📶 192.168.0.1'
+  '📶 192.168.0.1' # TODO Allow multiple hosts per route type, e.g. different lan routers for home vs. work
 )
 
 timeout_s=1
