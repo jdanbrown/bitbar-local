@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash -eu
+#!/bin/bash -eu
 #
 # Inspired by https://github.com/matryer/bitbar-plugins/blob/master/Network/ping.10s.sh
 
@@ -13,11 +13,9 @@ icon_hosts=(
 timeout_s=1
 history_lines=59
 line_format='color=gray size=10 font=Consolas trim=false'
-
-timeouts=''
-
 log_file='/tmp/bitbar-ping.log'
 
+timeouts=''
 printf '%-11s' "[`date +%H:%M:%S`]" >>"$log_file"
 for icon_host in "${icon_hosts[@]}"; do
   read icon host <<< "$icon_host"
@@ -31,16 +29,15 @@ for icon_host in "${icon_hosts[@]}"; do
   printf '%18s' "$line" >>"$log_file"
 done
 echo >>"$log_file"
-
-if [ $(($RANDOM % 10)) -eq 0 ]; then
-  tail -"$history_lines" "$log_file" >"$log_file.tmp"
-  mv "$log_file.tmp" "$log_file"
-fi
-
 if [ -z "$timeouts" ]; then
   msg="⚪"
 else
   msg="[$timeouts]"
+fi
+
+if [ $(($RANDOM % 10)) -eq 0 ]; then
+  tail -"$history_lines" "$log_file" >"$log_file.tmp"
+  mv "$log_file.tmp" "$log_file"
 fi
 
 echo "$msg"
