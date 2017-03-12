@@ -1,6 +1,7 @@
 #!/bin/bash -eu
 #
 # Inspired by https://github.com/matryer/bitbar-plugins/blob/master/Network/ping.10s.sh
+# Screenshot: https://cloud.githubusercontent.com/assets/627486/23837056/376cdf7a-073f-11e7-950f-a8ef26fbdae9.png
 
 PATH="/usr/local/bin:$PATH"
 
