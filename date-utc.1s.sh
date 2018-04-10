@@ -4,6 +4,6 @@
 
 PATH="/usr/local/bin:$PATH"
 
-gdate --utc +%H:%MZ
+gdate --utc +%dT%H:%MZ
 echo ---
 gdate --utc +%FT%TZ
