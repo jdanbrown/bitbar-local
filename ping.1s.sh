@@ -5,10 +5,14 @@
 
 PATH="/usr/local/bin:$PATH"
 
+#home_wifi_gateway='192.168.0.1'
+#od_wifi_gateway='10.116.0.1'
+current_gateway="`route -n get default | sed -nE '/gateway:/ s/.*: (.*)/\1/ p'`"
+
 icon_hosts=(
-  '🔒 192.168.255.1'
+  # '🔒 192.168.255.1'
   '🌍 8.8.4.4'
-  '📶 192.168.0.1' # TODO Allow multiple hosts per route type, e.g. different lan routers for home vs. work
+  "📶 $current_gateway"
 )
 
 timeout_s=1
