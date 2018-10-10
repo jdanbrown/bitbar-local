@@ -11,7 +11,7 @@ current_gateway="`route -n get default | sed -nE '/gateway:/ s/.*: (.*)/\1/ p'`"
 
 icon_hosts=(
   # '🔒 192.168.255.1'
-  '🌍 8.8.4.4'
+  '🌍 8.8.8.8'
   "📶 $current_gateway"
 )
 
