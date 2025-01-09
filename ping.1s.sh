@@ -21,28 +21,29 @@ icon_hosts=(
 )
 
 timeout_s=1
-history_lines=50
-line_format='disabled=true size=12 font=Consolas trim=false'
+history_lines=53
+line_format='size=12 font=Consolas trim=false'
 log_file='/tmp/xbar-ping.log'
 
 timeouts=''
-printf '%-11s' "[`date +%H:%M:%S`]" >>"$log_file"
+printf "%s" "[`date +%H:%M:%S`]" >>"$log_file"
 for icon_host in "${icon_hosts[@]}"; do
   read icon host <<< "$icon_host"
-  ping_ms="$(ping -c1 -t"$timeout_s" -n -q "$host" 2>/dev/null | awk -F/ 'END {printf "%.1f\n", $5}')"
+  ping_ms="$(ping -c1 -t"$timeout_s" -n -q "$host" 2>/dev/null | awk -F/ 'END {printf "%.0f\n", $5}')"
   if [ "$ping_ms" = '0.0' ]; then
     line="          (>${timeout_s}s)"
     timeouts+="$icon"
   else
     line="$ping_ms ms"
   fi
-  printf '%18s' "$line" >>"$log_file"
+  printf '\t%s' "$line" >>"$log_file"
 done
-echo >>"$log_file"
+printf '\n' >>"$log_file"
 if [ -z "$timeouts" ]; then
-  msg="⚪"
+  title="⚪"
+
 else
-  msg="[$timeouts]"
+  title="[$timeouts]"
 fi
 
 if [ $(($RANDOM % 10)) -eq 0 ]; then
@@ -50,14 +51,18 @@ if [ $(($RANDOM % 10)) -eq 0 ]; then
   mv "$log_file.tmp" "$log_file"
 fi
 
-echo "$msg"
+echo "$title"
 echo ---
 echo 'Bounce wifi | terminal=false bash=/bin/bash param1=-c param2="networksetup -setairportpower en0 off && networksetup -setairportpower en0 on"'
 echo ---
-printf '%-11s' ''
-for icon_host in "${icon_hosts[@]}"; do
-  read icon host <<< "$icon_host"
-  printf '%18s' "[$host]"
-done
-echo " | $line_format"
-tail -"$history_lines" "$log_file" | gtac | gsed "s/\$/ | $line_format/"
+(
+  # Hosts line
+  printf ""
+  for icon_host in "${icon_hosts[@]}"; do
+    read icon host <<< "$icon_host"
+    printf '\t%s' "[$host]"
+  done
+  echo " | $line_format"
+  # Ping lines (from log file)
+  tail -"$history_lines" "$log_file" | gtac | gsed "s/\$/ | $line_format/"
+) | align -st -j_ -g4 -ar
